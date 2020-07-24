@@ -1,7 +1,7 @@
 import colorama
 import os
-import subprocess
 import platform
+
 def print_search_results(search_res):
     colorama.init()
     for res in search_res:
@@ -13,25 +13,18 @@ def print_search_results(search_res):
         title = f"{title} {colorama.Fore.GREEN} {res['title']} {colorama.Style.RESET_ALL}"
         print(title)
         print(f"year: {res['date']}\t Episodes: {res['episodes_count']}\t Episode length: {res['episodes_length']} minutes")
-#macos open -a Terminal -n
-#The output of platform.system() is as follows:
 
-#Linux: Linux
-#Mac: Darwin
-#Windows: Windows
 def open_new_terminal():
     os_sys = platform.system()
     os_temrinal = ""
     if os_sys == "Linux":
         os_temrinal = "xterm" #Linux
-        #in linux
     if os_sys == "Darwin":
         os_temrinal = "open -a Terminal -n" #macOS
-        #in linux
     if os_sys == "Windows":
         os_temrinal = "start" #Windows
-        #in linux
     return os_temrinal
+
 def print_selected_anime_episodes(selected_anime):
     colorama.init()
     title = f"{colorama.Fore.BLUE} {str(selected_anime['id'])}"
@@ -58,5 +51,8 @@ def print_selected_anime_episodes(selected_anime):
         vvvvid_download = input("\nThere are links from VVVVID, do you want to download them using \"CoffeeStraw/VVVVID-Downloader\"? yes/no: ")
         if vvvvid_download.lower() == "y" or vvvvid_download.lower() ==  "yes":
             #os.system(open_new_terminal())  -> It starts a new teminal but the new command is written on the same terminal
-            os.startfile("python3 "+abs_file_path+"/main.py")
+            if not os.path.isfile(abs_file_path+"/main.py"):
+                print("Please, install CoffeeStraw/VVVVID-Downloader")
+            else:
+                os.system("python3 "+abs_file_path+"/main.py")
         os.remove("downloads_list.txt")
